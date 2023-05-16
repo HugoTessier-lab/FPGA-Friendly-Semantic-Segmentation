@@ -83,11 +83,10 @@ class ResNet(nn.Module):
                                       nn.ReLU(inplace=True),
                                       nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
         elif entry_downsampling_rate == 2:
-            self.head = nn.Sequential(nn.Conv2d(3, self.inplanes, kernel_size=3, stride=1, padding=1,
+            self.head = nn.Sequential(nn.Conv2d(3, self.inplanes, kernel_size=3, stride=2, padding=1,
                                                 bias=False),
                                       nn.BatchNorm2d(self.inplanes),
-                                      nn.ReLU(inplace=True),
-                                      nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+                                      nn.ReLU(inplace=True))
         elif entry_downsampling_rate == 1:
             self.head = nn.Sequential(nn.Conv2d(3, self.inplanes, kernel_size=3, stride=1, padding=1,
                                                 bias=False),
