@@ -159,6 +159,25 @@ def _resnet(arch,
                                               progress=progress)
         del state_dict['fc.weight']
         del state_dict['fc.bias']
+
+        if state_dict['conv1.weight'].shape != model.head[0].weight.shape:
+            state_dict['conv1.weight'] = state_dict['conv1.weight'][:,:,2:-2,2:-2]
+
+        state_dict['head.0.weight'] = state_dict['conv1.weight']
+        del state_dict['conv1.weight']
+
+        state_dict['head.1.weight'] = state_dict['bn1.weight']
+        del state_dict['bn1.weight']
+
+        state_dict['head.1.bias'] = state_dict['bn1.bias']
+        del state_dict['bn1.bias']
+
+        state_dict['head.1.running_mean'] = state_dict['bn1.running_mean']
+        del state_dict['bn1.running_mean']
+
+        state_dict['head.1.running_var'] = state_dict['bn1.running_var']
+        del state_dict['bn1.running_var']
+
         model.load_state_dict(state_dict)
     return model
 
